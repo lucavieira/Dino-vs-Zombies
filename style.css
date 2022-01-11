@@ -1,0 +1,148 @@
+@font-face {
+  font-family: Title;
+  src: url(fonts/Squirk-RMvV.ttf);
+}
+
+body {
+  background-color: #000;
+}
+
+h1 {
+  font-family: Title;
+  letter-spacing: 2px;
+  font-size: 60px;
+}
+
+.container {
+  width: 800px;
+  height: auto;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #fff;
+}
+
+.game-background {
+  width: 800px;
+  height: 549px;
+
+  background: url(images/backgrounds/plains.jpg);
+}
+
+.start {
+  width: 300px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+
+  text-align: center;
+}
+
+.btn-start {
+  width: 100px;
+  height: 50px;
+
+  border: 1px solid #000;
+  border-radius: 5px;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.dino {
+  width: 56.75px;
+  height: 50px;
+  position: absolute;
+  right: 370px;
+  top: 380px;
+
+  background: url(images/sprites/dino-run-right.png);
+  object-fit: none;
+  object-position: 50%;
+}
+
+#fireball-right {
+  width: 33.33px;
+  height: 33px;
+  position: absolute;
+  background: url(images/sprites/fireball-right.png);
+}
+
+#fireball-left {
+  width: 33.33px;
+  height: 33px;
+  position: absolute;
+  background: url(images/sprites/fireball-left.png);
+}
+
+.enemys {
+  width: 42.6px;
+  height: 54px;
+  position: absolute;
+  left: 750px;
+  top: 370px;
+  background: url(images/sprites/zombie-walk-left.png);
+}
+
+.run-animation-right {
+  background-image: url(images/sprites/dino-run-right.png);
+  animation: run 0.9s steps(8) infinite;
+}
+
+.enemyRun-animation-left {
+  background-image: url(images/sprites/zombie-walk-left.png);
+  animation: enemyRun 1.5s steps(10) infinite reverse;
+}
+
+.run-animation-left {
+  background-image: url(images/sprites/dino-run-left.png);
+  animation: run 0.9s steps(8) infinite;
+}
+
+.fireball-animation-right {
+  background-image: url(images/sprites/fireball-right.png);
+  animation: fireball-right 0.5s steps(6) infinite;
+}
+
+.fireball-animation-left {
+  background-image: url(images/sprites/fireball-right.png);
+  animation: fireball-right 0.5s steps(6) infinite;
+}
+
+@keyframes fireball-left {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: 200px;
+  }
+}
+
+@keyframes fireball-right {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: 200px;
+  }
+}
+
+@keyframes enemyRun {
+  from {
+    background-position: 0px;
+  }
+
+  to {
+    background-position: -426px;
+  }
+}
+
+@keyframes run {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -454px;
+  }
+}
