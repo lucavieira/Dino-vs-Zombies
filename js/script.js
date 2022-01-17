@@ -119,7 +119,9 @@ function start() {
             window.clearInterval(timeSkill)
             timeSkill = null
             $('#fireballRight').remove()
-            skillActive = true
+            setTimeout(() => {
+              skillActive = true
+            }, 200)
           }
         } // Fim da FireballActive
       } else {
@@ -144,7 +146,9 @@ function start() {
             window.clearInterval(timeSkill)
             timeSkill = null
             $('#fireballLeft').remove()
-            skillActive = true
+            setTimeout(() => {
+              skillActive = true
+            }, 200)
           }
         } // Fim da FireballActive
       }
