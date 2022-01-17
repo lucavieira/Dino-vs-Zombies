@@ -76,6 +76,14 @@ h1 {
   background: url(images/sprites/fireball-left.png);
 }
 
+#scoreboard {
+  width: 450px;
+  height: 50px;
+  position: absolute;
+  left: 5px;
+  top: 500px;
+}
+
 .zombie-1-left {
   width: 35px;
   height: 55px;

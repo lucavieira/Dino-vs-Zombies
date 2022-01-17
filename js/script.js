@@ -10,6 +10,7 @@ function start() {
   var skillActive = true
   var canMove = true
   var direction = 'right'
+  var score = 0
 
   $('#menu-start').hide()
 
@@ -20,6 +21,7 @@ function start() {
   $('#backGame').append(
     "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'>"
   )
+  $('#backGame').append("<div id='scoreboard'></div>")
 
   game.press = []
   game.timer = setInterval(loop, 35)
@@ -37,6 +39,7 @@ function start() {
     playerMove()
     enemyMove(canMove)
     collisions()
+    scores()
   }
 
   // BACKGROUND
@@ -237,6 +240,7 @@ function start() {
   } // Fim da Collisions
 
   function explosion(topPosition, leftPosition) {
+    score = score + 50
     $('#backGame').append(
       "<div id='explosion' class='explosion explosion-animation'></div>"
     )
@@ -272,4 +276,8 @@ function start() {
       }
     }
   } // Fim do enemyMove
+
+  function scores() {
+    $('#scoreboard').html('<h2> Scores: ' + score + ' </h2>')
+  }
 }
