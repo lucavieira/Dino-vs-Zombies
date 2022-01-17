@@ -62,37 +62,68 @@ h1 {
   object-position: 50%;
 }
 
-#fireball-right {
+#fireballRight {
   width: 33.33px;
   height: 33px;
   position: absolute;
   background: url(images/sprites/fireball-right.png);
 }
 
-#fireball-left {
+#fireballLeft {
   width: 33.33px;
   height: 33px;
   position: absolute;
   background: url(images/sprites/fireball-left.png);
 }
 
-.enemys {
-  width: 42.6px;
-  height: 54px;
+.zombie-1-left {
+  width: 35px;
+  height: 55px;
   position: absolute;
   left: 750px;
   top: 370px;
-  background: url(images/sprites/zombie-walk-left.png);
+  background: url(images/sprites/zombie1-left.png);
+}
+
+.zombie-1-right {
+  width: 35px;
+  height: 55px;
+  position: absolute;
+  left: 0px;
+  top: 370px;
+  background: url(images/sprites/zombie1-right.png);
+}
+
+.explosion {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background: url(images/sprites/explosion.png);
+}
+
+.zombie1-run-left {
+  background-image: url(images/sprites/zombie1-left.png);
+  animation: run-zombie1 1.8s steps(9) infinite reverse;
+}
+
+.zombie1-run-right {
+  background-image: url(images/sprites/zombie1-right.png);
+  animation: run-zombie1 1.8s steps(9) infinite;
+}
+
+.zombie1-attack-left {
+  background-image: url(images/sprites/zombie1-left-attack.png);
+  animation: attack-zombie1 1.5s steps(6) infinite;
+}
+
+.zombie1-attack-right {
+  background-image: url(images/sprites/zombie1-right-attack.png);
+  animation: attack-zombie1 1.5s steps(6) infinite;
 }
 
 .run-animation-right {
   background-image: url(images/sprites/dino-run-right.png);
   animation: run 0.9s steps(8) infinite;
-}
-
-.enemyRun-animation-left {
-  background-image: url(images/sprites/zombie-walk-left.png);
-  animation: enemyRun 1.5s steps(10) infinite reverse;
 }
 
 .run-animation-left {
@@ -110,6 +141,38 @@ h1 {
   animation: fireball-right 0.5s steps(6) infinite;
 }
 
+.explosion-animation {
+  background-image: url(images/sprites/explosion.png);
+  animation: explosion 0.5s steps(7);
+}
+
+@keyframes explosion {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: 348px;
+  }
+}
+
+@keyframes run-zombie1 {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: 315px;
+  }
+}
+
+@keyframes attack-zombie1 {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: 240px;
+  }
+}
+
 @keyframes fireball-left {
   from {
     background-position: 0px;
@@ -125,16 +188,6 @@ h1 {
   }
   to {
     background-position: 200px;
-  }
-}
-
-@keyframes enemyRun {
-  from {
-    background-position: 0px;
-  }
-
-  to {
-    background-position: -426px;
   }
 }
 
