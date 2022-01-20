@@ -12,8 +12,10 @@ function start() {
   var direction = 'right'
   var score = 0
 
+  // Esconde o menu inicial
   $('#menu-start').hide()
 
+  // Criação dos Sprites do jogador, dos inimigos e do placar
   $('#backGame').append("<div id='player' class='dino'>")
   $('#backGame').append(
     "<div id='zombie1Left' class='zombie-1-left zombie1-run-left'>"
@@ -22,6 +24,9 @@ function start() {
     "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'>"
   )
   $('#backGame').append("<div id='scoreboard'></div>")
+
+  // Barra de vida do jogador
+  $('#backGame').append("<div id='lifeBar'></div>")
 
   game.press = []
   game.timer = setInterval(loop, 35)
@@ -34,6 +39,7 @@ function start() {
     game.press[e.which] = false
   })
 
+  // Função que fica em um loop para sempre executar as funcionalidades do jogo
   function loop() {
     moveBackground()
     playerMove()
@@ -43,13 +49,18 @@ function start() {
   }
 
   // BACKGROUND
+
+  // Função responsavel pelo movimento do fundo
   function moveBackground() {
     var left = parseInt($('#backGame').css('background-position'))
     $('#backGame').css('background-position', left - 1)
   }
 
   // PLAYER
+
+  // Função responsavel pela movimentação do Jogador
   function playerMove() {
+    // Quando pressionado a tecla D o jogador caminha para a Direita
     if (game.press[TECLA.D]) {
       var right = parseInt($('#player').css('right'))
       $('#player').css('right', right - 10)
@@ -62,6 +73,8 @@ function start() {
         $('#player').css('right', right)
       }
     }
+
+    // Quando pressionado a tecla A o jogador caminha para a Esquerda
     if (game.press[TECLA.A]) {
       var right = parseInt($('#player').css('right'))
       $('#player').css('right', right + 10)
@@ -78,6 +91,7 @@ function start() {
       }
     }
 
+    // Quando pressionado a tecla NUM1, o jogador lança uma habilidade
     if (game.press[TECLA.NUM1]) {
       // Bola de Fogo
       fireball()
@@ -93,28 +107,34 @@ function start() {
 
   // Habilidades do Player
 
+  // Função que cria a habilidade
   function fireball() {
     if (skillActive == true) {
       skillActive = false
 
       if (direction == 'right') {
-        positionTop = parseInt($('#player').css('top'))
-        positionLeft = parseInt($('#player').css('left'))
-        skillPositionTop = positionTop + 5
-        skillPositionLeft = positionLeft + 34
+        // Posição onde o sprite será adicionado
+        positionTop = parseInt($('#player').css('top')) + 5
+        positionLeft = parseInt($('#player').css('left')) + 34
 
+        // Criando o sprite
         $('#backGame').append(
           "<div id='fireballRight' class='fireball-animation-right'></div>"
         )
-        $('#fireballRight').css('top', skillPositionTop)
-        $('#fireballRight').css('left', skillPositionLeft)
+        // Adicionado as posições onde irá aparecer
+        $('#fireballRight').css('top', positionTop)
+        $('#fireballRight').css('left', positionLeft)
 
         var timeSkill = window.setInterval(fireballActive, 30)
 
+        // Função para movimentar o sprite da habilidade
         function fireballActive() {
+          // Pega a posição atual
           positionX = parseInt($('#fireballRight').css('left'))
+          // Movimenta o sprite
           $('#fireballRight').css('left', positionX + 10)
 
+          // Verifica se o sprite chegou no limite da tela
           if (positionX > 765) {
             window.clearInterval(timeSkill)
             timeSkill = null
@@ -125,16 +145,14 @@ function start() {
           }
         } // Fim da FireballActive
       } else {
-        positionTop = parseInt($('#player').css('top'))
-        positionRight = parseInt($('#player').css('right'))
-        skillPositionTop = positionTop + 5
-        skillPositionRight = positionRight + 34
+        positionTop = parseInt($('#player').css('top')) + 5
+        positionRight = parseInt($('#player').css('right')) + 34
 
         $('#backGame').append(
           "<div id='fireballLeft' class='fireball-animation-left'></div>"
         )
-        $('#fireballLeft').css('top', skillPositionTop)
-        $('#fireballLeft').css('right', skillPositionRight)
+        $('#fireballLeft').css('top', positionTop)
+        $('#fireballLeft').css('right', positionRight)
 
         var timeSkill = window.setInterval(fireballActive, 30)
 
@@ -157,6 +175,7 @@ function start() {
 
   // Colisoes
 
+  // Função responsavel para verificar todas colisões do jogo
   function collisions() {
     var collision1 = $('#player').collision($('#zombie1Left'))
     var collision2 = $('#player').collision($('#zombie1Right'))
@@ -165,11 +184,14 @@ function start() {
     var collision5 = $('#fireballLeft').collision('#zombie1Left')
     var collision6 = $('#fireballLeft').collision('#zombie1Right')
 
+    // Verifica se está tendo colisão entre dois elementos
     if (collision1.length > 0) {
+      dano()
       canMove = false
       $('#zombie1Left').removeClass('zombie1-run-left')
       $('#zombie1Left').addClass('zombie1-attack-left')
     } else if (collision2.length > 0) {
+      dano()
       canMove = false
       $('#zombie1Right').removeClass('zombie1-run-right')
       $('#zombie1Right').addClass('zombie1-attack-right')
@@ -183,6 +205,7 @@ function start() {
     }
 
     if (collision3.length > 0) {
+      score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
       positionLeft = parseInt($('#zombie1Left').css('left'))
 
@@ -198,6 +221,7 @@ function start() {
     }
 
     if (collision4.length > 0) {
+      score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
       positionLeft = parseInt($('#zombie1Right').css('left'))
 
@@ -213,6 +237,7 @@ function start() {
     }
 
     if (collision5.length > 0) {
+      score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
       positionLeft = parseInt($('#zombie1Left').css('left'))
 
@@ -228,6 +253,7 @@ function start() {
     }
 
     if (collision6.length > 0) {
+      score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
       positionLeft = parseInt($('#zombie1Right').css('left'))
 
@@ -241,10 +267,25 @@ function start() {
         )
       }, 1500)
     }
+
+    function dano() {
+      life = String(
+        getComputedStyle(document.querySelector('#lifeBar')).getPropertyValue(
+          `--progress`
+        )
+      ).trim()
+      if (life != 0) {
+        document
+          .querySelector('#lifeBar')
+          .style.setProperty(`--progress`, life - 0.1)
+      } else {
+        // Game Over
+      }
+    }
   } // Fim da Collisions
 
+  // Função responsavel para executar a animação da explosão ao eliminar um inimigo
   function explosion(topPosition, leftPosition) {
-    score = score + 50
     $('#backGame').append(
       "<div id='explosion' class='explosion explosion-animation'></div>"
     )
@@ -263,11 +304,16 @@ function start() {
 
   // ENEMYS
 
+  // Função responsavel pela movimentação dos inimigos
   function enemyMove(canMove) {
+    // Verifica se pode se movimentar
     if (canMove) {
+      // Posição do sprite
       var positionX = parseInt($('#zombie1Left').css('left'))
+      // Movimentando o sprite
       $('#zombie1Left').css('left', positionX - 1)
 
+      // Verifica se o sprite chegar no limite da tela será reposicionado
       if (positionX <= 0) {
         $('#zombie1Left').css('left', 745)
       }
@@ -281,6 +327,7 @@ function start() {
     }
   } // Fim do enemyMove
 
+  // Função responsavel por mostrar o placar do jogo, a quantidade de pontos até o momento
   function scores() {
     $('#scoreboard').html('<h2> Scores: ' + score + ' </h2>')
   }
