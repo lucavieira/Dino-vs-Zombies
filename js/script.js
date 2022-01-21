@@ -367,3 +367,17 @@ function restartGame() {
   $('#over').remove()
   start()
 } // Fim da função restart Game
+
+function instructions() {
+  $('#menu-start').hide()
+  $('#backGame').append(
+    "<div id='gameInstructions'>" + 
+      "<h3 id='objective'>Objective</h3>" +
+      "<p class='gameObjective'>Score the most points by eliminating enemies.</p>" +
+      "<h3 id='controls'>Controls</h3>" + 
+      "<p class='controlKey'>A -> Move to Left</p>" + 
+      "<p class='controlKey'>D -> Move to Right</p>" +
+      "<p class='controlKey'>NUM1 -> Ability</p>" +
+    "</div>"
+  )
+}

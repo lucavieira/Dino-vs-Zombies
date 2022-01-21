@@ -8,6 +8,16 @@
   src: url(fonts/Bungee-Regular.ttf);
 }
 
+@font-face {
+  font-family: titlesInstructions-regular;
+  src: url(fonts/Dongle-Regular.ttf);
+}
+
+@font-face {
+  font-family: titlesInstructions-bold;
+  src: url(fonts/Dongle-Bold.ttf);
+}
+
 body {
   background-color: #000;
 }
@@ -131,6 +141,41 @@ h1 {
 #restart {
   font-family: gameOverTitle;
   cursor: pointer;
+}
+
+#gameInstructions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+
+  background-color: rgba(216, 215, 215, 0.788);
+}
+
+#controls,
+#objective {
+  font-family: titlesinstructions-bold;
+  font-size: 45px;
+}
+
+.gameObjective,
+.controlKey {
+  font-family: titlesinstructions-regular;
+  font-size: 30px;
+}
+
+#controls,
+#objective,
+.gameObjective,
+.controlKey {
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .zombie-1-left {
