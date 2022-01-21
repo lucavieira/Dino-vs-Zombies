@@ -3,6 +3,11 @@
   src: url(fonts/Squirk-RMvV.ttf);
 }
 
+@font-face {
+  font-family: gameOverTitle;
+  src: url(fonts/Bungee-Regular.ttf);
+}
+
 body {
   background-color: #000;
 }
@@ -19,13 +24,13 @@ h1 {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid #fff;
 }
 
 .game-background {
   width: 800px;
   height: 549px;
 
+  border: 2px solid #fff;
   background: url(images/backgrounds/plains.jpg);
 }
 
@@ -85,17 +90,47 @@ h1 {
 }
 
 #lifeBar {
-  --progress: 100;
+  --life: 100;
   width: 150px;
   height: 20px;
   background-color: #ccc;
   display: flex;
 }
 
-#lifeBar::before{
-  content: "";
-  width: calc(var(--progress) * 1%);
+#lifeBar::before {
+  content: '';
+  width: calc(var(--life) * 1%);
   background-color: red;
+}
+
+#over {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+
+  background-color: rgba(216, 215, 215, 0.788);
+}
+
+#gameOverTitle {
+  font-family: gameOverTitle;
+  font-size: 30px;
+}
+
+#scores {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+#restart {
+  font-family: gameOverTitle;
+  cursor: pointer;
 }
 
 .zombie-1-left {

@@ -9,6 +9,7 @@ function start() {
   }
   var skillActive = true
   var canMove = true
+  var gameOver = false
   var direction = 'right'
   var score = 0
 
@@ -186,12 +187,12 @@ function start() {
 
     // Verifica se está tendo colisão entre dois elementos
     if (collision1.length > 0) {
-      dano()
+      damage()
       canMove = false
       $('#zombie1Left').removeClass('zombie1-run-left')
       $('#zombie1Left').addClass('zombie1-attack-left')
     } else if (collision2.length > 0) {
-      dano()
+      damage()
       canMove = false
       $('#zombie1Right').removeClass('zombie1-run-right')
       $('#zombie1Right').addClass('zombie1-attack-right')
@@ -213,11 +214,7 @@ function start() {
       $('#fireballRight').css('left', 780)
 
       $('#zombie1Left').remove()
-      setTimeout(() => {
-        $('#backGame').append(
-          "<div id='zombie1Left' class='zombie-1-left zombie1-run-left'>"
-        )
-      }, 1500)
+      repositionEnemy('zombieLeft')
     }
 
     if (collision4.length > 0) {
@@ -229,11 +226,7 @@ function start() {
       $('#fireballRight').css('left', 780)
 
       $('#zombie1Right').remove()
-      setTimeout(() => {
-        $('#backGame').append(
-          "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'>"
-        )
-      }, 1500)
+      repositionEnemy('zombieRight')
     }
 
     if (collision5.length > 0) {
@@ -245,11 +238,7 @@ function start() {
       $('#fireballLeft').css('right', 780)
 
       $('#zombie1Left').remove()
-      setTimeout(() => {
-        $('#backGame').append(
-          "<div id='zombie1Left' class='zombie-1-left zombie1-run-left'>"
-        )
-      }, 1500)
+      repositionEnemy('zombieLeft')
     }
 
     if (collision6.length > 0) {
@@ -261,28 +250,48 @@ function start() {
       $('#fireballLeft').css('right', 780)
 
       $('#zombie1Right').remove()
-      setTimeout(() => {
-        $('#backGame').append(
-          "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'>"
-        )
-      }, 1500)
-    }
-
-    function dano() {
-      life = String(
-        getComputedStyle(document.querySelector('#lifeBar')).getPropertyValue(
-          `--progress`
-        )
-      ).trim()
-      if (life != 0) {
-        document
-          .querySelector('#lifeBar')
-          .style.setProperty(`--progress`, life - 0.1)
-      } else {
-        // Game Over
-      }
+      repositionEnemy('zombieRight')
     }
   } // Fim da Collisions
+
+  // Função que diminui a vida do personagem quando for atacado
+  function damage() {
+    // Acessando a variavel css que contém o valor total da barra de vida
+    life = String(
+      getComputedStyle(document.querySelector('#lifeBar')).getPropertyValue(
+        `--life`
+      )
+    ).trim()
+
+    // Verifica se a vida chegou a 0
+    if (life != 0) {
+      // Se for diferente de 0 e estiver em contato com o zumbi, irá diminuir
+      document.querySelector('#lifeBar').style.setProperty(`--life`, life - 1)
+    }
+    if (life == 0) {
+      // Game Over
+      game_over()
+    }
+  }
+
+  // Reposiciona o inimigo
+  function repositionEnemy(enemy) {
+    if (!gameOver) {
+      if (enemy == 'zombieRight') {
+        setTimeout(() => {
+          $('#backGame').append(
+            "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'>"
+          )
+        }, 1500)
+      } else if (enemy == 'zombieLeft') {
+        setTimeout(() => {
+          $('#backGame').append(
+            "<div id='zombie1Left' class='zombie-1-left zombie1-run-left'>"
+          )
+        }, 1500)
+      }
+    }
+  }
 
   // Função responsavel para executar a animação da explosão ao eliminar um inimigo
   function explosion(topPosition, leftPosition) {
@@ -330,5 +339,31 @@ function start() {
   // Função responsavel por mostrar o placar do jogo, a quantidade de pontos até o momento
   function scores() {
     $('#scoreboard').html('<h2> Scores: ' + score + ' </h2>')
-  }
+  } // Fim da função Scores
+
+  // Função fim de jogo
+  function game_over() {
+    gameOver = true
+    window.clearInterval(game.timer)
+    game.timer = null
+
+    $('#player').remove()
+    $('#zombie1Right').remove()
+    $('#zombie1Left').remove()
+    $('#lifeBar').remove()
+
+    $('#backGame').append("<div id='over'></div>")
+    $('#over').html(
+      "<h2 id='gameOverTitle'>Game Over</h2><p id='scores'>Score: " +
+        score +
+        '</p>' +
+        "<div id='restart' onClick=restartGame()><h3>Try Again</h3></div>"
+    )
+  } // Fim da função game Over
 }
+
+// Função que reinicia o jogo
+function restartGame() {
+  $('#over').remove()
+  start()
+} // Fim da função restart Game
