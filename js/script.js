@@ -12,6 +12,7 @@ function start() {
   var gameOver = false
   var direction = 'right'
   var score = 0
+  var velocidade = 1
 
   // Esconde o menu inicial
   $('#menu-start').hide()
@@ -206,6 +207,7 @@ function start() {
     }
 
     if (collision3.length > 0) {
+      speedUp()
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
       positionLeft = parseInt($('#zombie1Left').css('left'))
@@ -218,6 +220,7 @@ function start() {
     }
 
     if (collision4.length > 0) {
+      speedUp()
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
       positionLeft = parseInt($('#zombie1Right').css('left'))
@@ -230,6 +233,7 @@ function start() {
     }
 
     if (collision5.length > 0) {
+      speedUp()
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
       positionLeft = parseInt($('#zombie1Left').css('left'))
@@ -242,6 +246,7 @@ function start() {
     }
 
     if (collision6.length > 0) {
+      speedUp()
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
       positionLeft = parseInt($('#zombie1Right').css('left'))
@@ -253,6 +258,13 @@ function start() {
       repositionEnemy('zombieRight')
     }
   } // Fim da Collisions
+
+  // Aumenta a velocidade do inimigo cada vez que um inimigo é eliminado
+  function speedUp() {
+    if (velocidade < 3) {
+      velocidade = velocidade + 0.3
+    }
+  }
 
   // Função que diminui a vida do personagem quando for atacado
   function damage() {
@@ -320,7 +332,7 @@ function start() {
       // Posição do sprite
       var positionX = parseInt($('#zombie1Left').css('left'))
       // Movimentando o sprite
-      $('#zombie1Left').css('left', positionX - 1)
+      $('#zombie1Left').css('left', positionX - velocidade)
 
       // Verifica se o sprite chegar no limite da tela será reposicionado
       if (positionX <= 0) {
@@ -328,7 +340,7 @@ function start() {
       }
 
       var positionX = parseInt($('#zombie1Right').css('left'))
-      $('#zombie1Right').css('left', positionX + 1)
+      $('#zombie1Right').css('left', positionX + velocidade)
 
       if (positionX > 745) {
         $('#zombie1Right').css('left', 0)
@@ -371,13 +383,13 @@ function restartGame() {
 function instructions() {
   $('#menu-start').hide()
   $('#backGame').append(
-    "<div id='gameInstructions'>" + 
+    "<div id='gameInstructions'>" +
       "<h3 id='objective'>Objective</h3>" +
       "<p class='gameObjective'>Score the most points by eliminating enemies.</p>" +
-      "<h3 id='controls'>Controls</h3>" + 
-      "<p class='controlKey'>A -> Move to Left</p>" + 
+      "<h3 id='controls'>Controls</h3>" +
+      "<p class='controlKey'>A -> Move to Left</p>" +
       "<p class='controlKey'>D -> Move to Right</p>" +
       "<p class='controlKey'>NUM1 -> Ability</p>" +
-    "</div>"
+      '</div>'
   )
 }
