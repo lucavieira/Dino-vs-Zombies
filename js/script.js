@@ -12,7 +12,8 @@ function start() {
   var gameOver = false
   var direction = 'right'
   var score = 0
-  var velocidade = 1
+  var speed = 1
+  var enemyDeaths = 0
 
   // Esconde o menu inicial
   $('#menu-start').hide()
@@ -208,6 +209,7 @@ function start() {
 
     if (collision3.length > 0) {
       speedUp()
+      enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
       positionLeft = parseInt($('#zombie1Left').css('left'))
@@ -221,6 +223,7 @@ function start() {
 
     if (collision4.length > 0) {
       speedUp()
+      enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
       positionLeft = parseInt($('#zombie1Right').css('left'))
@@ -234,6 +237,7 @@ function start() {
 
     if (collision5.length > 0) {
       speedUp()
+      enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
       positionLeft = parseInt($('#zombie1Left').css('left'))
@@ -247,6 +251,7 @@ function start() {
 
     if (collision6.length > 0) {
       speedUp()
+      enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
       positionLeft = parseInt($('#zombie1Right').css('left'))
@@ -261,8 +266,8 @@ function start() {
 
   // Aumenta a velocidade do inimigo cada vez que um inimigo é eliminado
   function speedUp() {
-    if (velocidade < 3) {
-      velocidade = velocidade + 0.3
+    if (speed < 3) {
+      speed = speed + 0.3
     }
   }
 
@@ -332,7 +337,7 @@ function start() {
       // Posição do sprite
       var positionX = parseInt($('#zombie1Left').css('left'))
       // Movimentando o sprite
-      $('#zombie1Left').css('left', positionX - velocidade)
+      $('#zombie1Left').css('left', positionX - speed)
 
       // Verifica se o sprite chegar no limite da tela será reposicionado
       if (positionX <= 0) {
@@ -340,7 +345,7 @@ function start() {
       }
 
       var positionX = parseInt($('#zombie1Right').css('left'))
-      $('#zombie1Right').css('left', positionX + velocidade)
+      $('#zombie1Right').css('left', positionX + speed)
 
       if (positionX > 745) {
         $('#zombie1Right').css('left', 0)
@@ -368,6 +373,9 @@ function start() {
     $('#over').html(
       "<h2 id='gameOverTitle'>Game Over</h2><p id='scores'>Score: " +
         score +
+        '<br /><p id="deathsEnemys">Enemy Deaths: ' +
+        enemyDeaths +
+        '</p>' +
         '</p>' +
         "<div id='restart' onClick=restartGame()><h3>Try Again</h3></div>"
     )
@@ -390,6 +398,12 @@ function instructions() {
       "<p class='controlKey'>A -> Move to Left</p>" +
       "<p class='controlKey'>D -> Move to Right</p>" +
       "<p class='controlKey'>NUM1 -> Ability</p>" +
+      "<button id='btnBack' onClick=backMenu()>Back Menu</button>" +
       '</div>'
   )
+}
+
+function backMenu() {
+  $('#gameInstructions').remove()
+  $('#menu-start').show()
 }

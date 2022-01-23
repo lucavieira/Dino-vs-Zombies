@@ -65,6 +65,19 @@ h1 {
   font-weight: 700;
 }
 
+#btnBack {
+  width: 90px;
+  height: 30px;
+
+  border: 1px solid #000;
+  border-radius: 5px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
 .dino {
   width: 56.75px;
   height: 50px;
@@ -133,7 +146,8 @@ h1 {
   font-size: 30px;
 }
 
-#scores {
+#scores,
+#deathsEnemys {
   font-size: 17px;
   font-weight: 700;
 }
