@@ -235,7 +235,7 @@ h1 {
   background: url(images/sprites/explosion.png);
 }
 
-.zombie1-run-left{
+.zombie1-run-left {
   background-image: url(images/sprites/zombie1-left.png);
   animation: run-zombie1 1.8s steps(9) infinite reverse;
 }
@@ -253,6 +253,16 @@ h1 {
 .zombie1-attack-right {
   background-image: url(images/sprites/zombie1-right-attack.png);
   animation: attack-zombie1 1.5s steps(6) infinite;
+}
+
+.zombieArmor-attack-left {
+  background-image: url(images/sprites/zombieArmor-left-attack.png);
+  animation: attackZombieArmor 1.5s steps(8) infinite;
+}
+
+.zombieArmor-attack-right {
+  background-image: url(images/sprites/zombieArmor-right-attack.png);
+  animation: attackZombieArmor 1.5s steps(8) infinite reverse;
 }
 
 .zombieArmor-run-left {
@@ -314,6 +324,16 @@ h1 {
   }
   to {
     background-position: 240px;
+  }
+}
+
+@keyframes attackZombieArmor {
+  from {
+    background-position: 0px;
+  }
+
+  to {
+    background-position: 280px;
   }
 }
 

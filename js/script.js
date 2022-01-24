@@ -342,13 +342,16 @@ function start() {
       damage()
       canMove = false
       $('#zombieArmorLeft').removeClass('zombieArmor-run-left')
-      // $('#zombie1Left').addClass('zombie1-attack-left')
+      $('#zombieArmorLeft').addClass('zombieArmor-attack-left')
 
       $('#zombieArmorRight').removeClass('zombieArmor-run-right')
+      $('#zombieArmorRight').addClass('zombieArmor-attack-right')
     } else {
       $('#zombieArmorLeft').addClass('zombieArmor-run-left')
+      $('#zombieArmorLeft').removeClass('zombieArmor-attack-left')
 
       $('#zombieArmorRight').addClass('zombieArmor-run-right')
+      $('#zombieArmorRight').removeClass('zombieArmor-attack-right')
     }
   } // Fim da Collisions
 
