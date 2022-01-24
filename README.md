@@ -16,3 +16,4 @@
 
 ## Pontuação
 * Zumbi Padrão -> 50 Pontos
+* Zumbi Armor -> 100 Pontos

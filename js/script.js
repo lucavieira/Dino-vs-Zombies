@@ -8,7 +8,10 @@ function start() {
     NUM1: 97
   }
   var skillActive = true
-  var canMove = true
+  var canMoveZombie1Right = true
+  var canMoveZombie1Left = true
+  var canMoveZombieArmorRight = true
+  var canMoveZombieArmorLeft = true
   var gameOver = false
   var direction = 'right'
   var score = 0
@@ -51,7 +54,12 @@ function start() {
   function loop() {
     moveBackground()
     playerMove()
-    enemyMove(canMove)
+    enemyMove(
+      canMoveZombie1Right,
+      canMoveZombie1Left,
+      canMoveZombieArmorRight,
+      canMoveZombieArmorLeft
+    )
     collisions()
     scores()
   }
@@ -199,22 +207,28 @@ function start() {
     var collision12 = $('#player').collision($('#zombieArmorRight'))
 
     // Verifica se está tendo colisão entre dois elementos
-    if (collision1.length > 0 || collision2.length > 0) {
-      hit = 0.5
+    if (collision1.length > 0) {
+      hit = 1
       damage()
-      canMove = false
+      canMoveZombie1Left = false
       $('#zombie1Left').removeClass('zombie1-run-left')
       $('#zombie1Left').addClass('zombie1-attack-left')
+    } else {
+      canMoveZombie1Left = true
+      $('#zombie1Left').addClass('zombie1-run-left')
+      $('#zombie1Left').removeClass('zombie1-attack-left')
+    }
 
+    if (collision2.length > 0) {
+      hit = 1
+      damage()
+      canMoveZombie1Right = false
       $('#zombie1Right').removeClass('zombie1-run-right')
       $('#zombie1Right').addClass('zombie1-attack-right')
     } else {
-      canMove = true
+      canMoveZombie1Right = true
       $('#zombie1Right').addClass('zombie1-run-right')
       $('#zombie1Right').removeClass('zombie1-attack-right')
-
-      $('#zombie1Left').addClass('zombie1-run-left')
-      $('#zombie1Left').removeClass('zombie1-attack-left')
     }
 
     if (collision3.length > 0) {
@@ -289,7 +303,7 @@ function start() {
       $('#fireballRight').css('left', 780)
 
       $('#zombieArmorLeft').remove()
-      repositionEnemy('zombieArmorLeft', 1000)
+      repositionEnemy('zombieArmorLeft', 850)
     }
 
     if (collision8.length > 0) {
@@ -304,7 +318,7 @@ function start() {
       $('#fireballRight').css('left', 780)
 
       $('#zombieArmorRight').remove()
-      repositionEnemy('zombieArmorRight', 1000)
+      repositionEnemy('zombieArmorRight', 850)
     }
 
     if (collision9.length > 0) {
@@ -319,7 +333,7 @@ function start() {
       $('#fireballLeft').css('right', 780)
 
       $('#zombieArmorLeft').remove()
-      repositionEnemy('zombieArmorLeft', 1000)
+      repositionEnemy('zombieArmorLeft', 850)
     }
 
     if (collision10.length > 0) {
@@ -334,22 +348,30 @@ function start() {
       $('#fireballLeft').css('right', 780)
 
       $('#zombieArmorRight').remove()
-      repositionEnemy('zombieArmorRight', 1000)
+      repositionEnemy('zombieArmorRight', 850)
     }
 
-    if (collision11.length > 0 || collision12.length > 0) {
-      hit = 1.5
+    if (collision11.length > 0) {
+      hit = 2
       damage()
-      canMove = false
+      canMoveZombieArmorLeft = false
       $('#zombieArmorLeft').removeClass('zombieArmor-run-left')
       $('#zombieArmorLeft').addClass('zombieArmor-attack-left')
+    } else {
+      canMoveZombieArmorLeft = true
+      $('#zombieArmorLeft').addClass('zombieArmor-run-left')
+      $('#zombieArmorLeft').removeClass('zombieArmor-attack-left')
+    }
+
+    if (collision12.length > 0) {
+      hit = 2
+      damage()
+      canMoveZombieArmorRight = false
 
       $('#zombieArmorRight').removeClass('zombieArmor-run-right')
       $('#zombieArmorRight').addClass('zombieArmor-attack-right')
     } else {
-      $('#zombieArmorLeft').addClass('zombieArmor-run-left')
-      $('#zombieArmorLeft').removeClass('zombieArmor-attack-left')
-
+      canMoveZombieArmorRight = true
       $('#zombieArmorRight').addClass('zombieArmor-run-right')
       $('#zombieArmorRight').removeClass('zombieArmor-attack-right')
     }
@@ -434,7 +456,7 @@ function start() {
     $('#explosion').css('left', leftPosition)
     $('#explosion').animate({ width: 50, opacity: 0 }, 'slow')
 
-    var explosionTime = window.setInterval(removeExplosion, 500)
+    var explosionTime = window.setInterval(removeExplosion, 300)
 
     function removeExplosion() {
       $('#explosion').remove()
@@ -446,9 +468,23 @@ function start() {
   // ENEMYS
 
   // Função responsavel pela movimentação dos inimigos
-  function enemyMove(canMove) {
-    // Verifica se pode se movimentar
-    if (canMove) {
+  function enemyMove(
+    canMoveZombie1Right,
+    canMoveZombie1Left,
+    canMoveZombieArmorRight,
+    canMoveZombieArmorLeft
+  ) {
+    // Verifica se pode se movimentar e qual inimigo
+    if (canMoveZombie1Right) {
+      var positionX = parseInt($('#zombie1Right').css('left'))
+      $('#zombie1Right').css('left', positionX + speed)
+
+      if (positionX > 745) {
+        $('#zombie1Right').css('left', 0)
+      }
+    }
+
+    if (canMoveZombie1Left) {
       // Posição do sprite
       var positionX = parseInt($('#zombie1Left').css('left'))
       // Movimentando o sprite
@@ -458,21 +494,16 @@ function start() {
       if (positionX <= 0) {
         $('#zombie1Left').css('left', 745)
       }
-
-      var positionX = parseInt($('#zombie1Right').css('left'))
-      $('#zombie1Right').css('left', positionX + speed)
-
-      if (positionX > 745) {
-        $('#zombie1Right').css('left', 0)
-      }
-
+    }
+    if (canMoveZombieArmorLeft) {
       var positionX = parseInt($('#zombieArmorLeft').css('left'))
       $('#zombieArmorLeft').css('left', positionX - speed)
 
       if (positionX <= 0) {
         $('#zombieArmorLeft').css('left', 745)
       }
-
+    }
+    if (canMoveZombieArmorRight) {
       var positionX = parseInt($('#zombieArmorRight').css('left'))
       $('#zombieArmorRight').css('left', positionX + speed)
 
