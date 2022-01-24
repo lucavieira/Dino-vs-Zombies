@@ -15,7 +15,7 @@ function start() {
   var speed = 1
   var enemyDeaths = 0
   var hit
-  
+
   // Variaveis que controlam o surgimento dos inimigos
   var zombieArmorAppearence = true
   var giantZombieAppearence = true
@@ -195,18 +195,17 @@ function start() {
     var collision8 = $('#fireballRight').collision('#zombieArmorRight')
     var collision9 = $('#fireballLeft').collision('#zombieArmorLeft')
     var collision10 = $('#fireballLeft').collision('#zombieArmorRight')
+    var collision11 = $('#player').collision($('#zombieArmorLeft'))
+    var collision12 = $('#player').collision($('#zombieArmorRight'))
 
     // Verifica se está tendo colisão entre dois elementos
-    if (collision1.length > 0) {
+    if (collision1.length > 0 || collision2.length > 0) {
       hit = 0.5
       damage()
       canMove = false
       $('#zombie1Left').removeClass('zombie1-run-left')
       $('#zombie1Left').addClass('zombie1-attack-left')
-    } else if (collision2.length > 0) {
-      hit = 0.5
-      damage()
-      canMove = false
+
       $('#zombie1Right').removeClass('zombie1-run-right')
       $('#zombie1Right').addClass('zombie1-attack-right')
     } else {
@@ -337,6 +336,20 @@ function start() {
       $('#zombieArmorRight').remove()
       repositionEnemy('zombieArmorRight', 1000)
     }
+
+    if (collision11.length > 0 || collision12.length > 0) {
+      hit = 1.5
+      damage()
+      canMove = false
+      $('#zombieArmorLeft').removeClass('zombieArmor-run-left')
+      // $('#zombie1Left').addClass('zombie1-attack-left')
+
+      $('#zombieArmorRight').removeClass('zombieArmor-run-right')
+    } else {
+      $('#zombieArmorLeft').addClass('zombieArmor-run-left')
+
+      $('#zombieArmorRight').addClass('zombieArmor-run-right')
+    }
   } // Fim da Collisions
 
   // Aumenta a velocidade do inimigo cada vez que um inimigo é eliminado
@@ -360,7 +373,7 @@ function start() {
       // Se for diferente de 0 e estiver em contato com o zumbi, irá diminuir
       document.querySelector('#lifeBar').style.setProperty(`--life`, life - hit)
     }
-    if (life == 0) {
+    if (life <= 0) {
       // Game Over
       game_over()
     }
@@ -399,7 +412,7 @@ function start() {
 
   function dificultyUp() {
     if (zombieArmorAppearence) {
-      if (enemyDeaths >= 50) {
+      if (enemyDeaths >= 2) {
         repositionEnemy('zombieArmorLeft')
         repositionEnemy('zombieArmorRight')
         zombieArmorAppearence = false
