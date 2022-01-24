@@ -14,17 +14,22 @@ function start() {
   var score = 0
   var speed = 1
   var enemyDeaths = 0
+  var hit
+  
+  // Variaveis que controlam o surgimento dos inimigos
+  var zombieArmorAppearence = true
+  var giantZombieAppearence = true
 
   // Esconde o menu inicial
   $('#menu-start').hide()
 
   // Criação dos Sprites do jogador, dos inimigos e do placar
-  $('#backGame').append("<div id='player' class='dino'>")
+  $('#backGame').append("<div id='player' class='dino'></div>")
   $('#backGame').append(
-    "<div id='zombie1Left' class='zombie-1-left zombie1-run-left'>"
+    "<div id='zombie1Left' class='zombie-1-left zombie1-run-left'></div>"
   )
   $('#backGame').append(
-    "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'>"
+    "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'></div>"
   )
   $('#backGame').append("<div id='scoreboard'></div>")
 
@@ -186,14 +191,20 @@ function start() {
     var collision4 = $('#fireballRight').collision('#zombie1Right')
     var collision5 = $('#fireballLeft').collision('#zombie1Left')
     var collision6 = $('#fireballLeft').collision('#zombie1Right')
+    var collision7 = $('#fireballRight').collision('#zombieArmorLeft')
+    var collision8 = $('#fireballRight').collision('#zombieArmorRight')
+    var collision9 = $('#fireballLeft').collision('#zombieArmorLeft')
+    var collision10 = $('#fireballLeft').collision('#zombieArmorRight')
 
     // Verifica se está tendo colisão entre dois elementos
     if (collision1.length > 0) {
+      hit = 0.5
       damage()
       canMove = false
       $('#zombie1Left').removeClass('zombie1-run-left')
       $('#zombie1Left').addClass('zombie1-attack-left')
     } else if (collision2.length > 0) {
+      hit = 0.5
       damage()
       canMove = false
       $('#zombie1Right').removeClass('zombie1-run-right')
@@ -209,6 +220,7 @@ function start() {
 
     if (collision3.length > 0) {
       speedUp()
+      dificultyUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
@@ -218,11 +230,12 @@ function start() {
       $('#fireballRight').css('left', 780)
 
       $('#zombie1Left').remove()
-      repositionEnemy('zombieLeft')
+      repositionEnemy('zombieLeft', 800)
     }
 
     if (collision4.length > 0) {
       speedUp()
+      dificultyUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
@@ -232,11 +245,12 @@ function start() {
       $('#fireballRight').css('left', 780)
 
       $('#zombie1Right').remove()
-      repositionEnemy('zombieRight')
+      repositionEnemy('zombieRight', 800)
     }
 
     if (collision5.length > 0) {
       speedUp()
+      dificultyUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
@@ -246,11 +260,12 @@ function start() {
       $('#fireballLeft').css('right', 780)
 
       $('#zombie1Left').remove()
-      repositionEnemy('zombieLeft')
+      repositionEnemy('zombieLeft', 800)
     }
 
     if (collision6.length > 0) {
       speedUp()
+      dificultyUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
@@ -260,7 +275,67 @@ function start() {
       $('#fireballLeft').css('right', 780)
 
       $('#zombie1Right').remove()
-      repositionEnemy('zombieRight')
+      repositionEnemy('zombieRight', 800)
+    }
+
+    if (collision7.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 100
+      positionTop = parseInt($('#zombieArmorLeft').css('top'))
+      positionLeft = parseInt($('#zombieArmorLeft').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballRight').css('left', 780)
+
+      $('#zombieArmorLeft').remove()
+      repositionEnemy('zombieArmorLeft', 1000)
+    }
+
+    if (collision8.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 100
+      positionTop = parseInt($('#zombieArmorRight').css('top'))
+      positionLeft = parseInt($('#zombieArmorRight').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballRight').css('left', 780)
+
+      $('#zombieArmorRight').remove()
+      repositionEnemy('zombieArmorRight', 1000)
+    }
+
+    if (collision9.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 100
+      positionTop = parseInt($('#zombieArmorLeft').css('top'))
+      positionLeft = parseInt($('#zombieArmorLeft').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballLeft').css('right', 780)
+
+      $('#zombieArmorLeft').remove()
+      repositionEnemy('zombieArmorLeft', 1000)
+    }
+
+    if (collision10.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 100
+      positionTop = parseInt($('#zombieArmorRight').css('top'))
+      positionLeft = parseInt($('#zombieArmorRight').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballLeft').css('right', 780)
+
+      $('#zombieArmorRight').remove()
+      repositionEnemy('zombieArmorRight', 1000)
     }
   } // Fim da Collisions
 
@@ -283,7 +358,7 @@ function start() {
     // Verifica se a vida chegou a 0
     if (life != 0) {
       // Se for diferente de 0 e estiver em contato com o zumbi, irá diminuir
-      document.querySelector('#lifeBar').style.setProperty(`--life`, life - 1)
+      document.querySelector('#lifeBar').style.setProperty(`--life`, life - hit)
     }
     if (life == 0) {
       // Game Over
@@ -292,21 +367,45 @@ function start() {
   }
 
   // Reposiciona o inimigo
-  function repositionEnemy(enemy) {
+  function repositionEnemy(enemy, time = 1500) {
     if (!gameOver) {
       if (enemy == 'zombieRight') {
         setTimeout(() => {
           $('#backGame').append(
             "<div id='zombie1Right' class='zombie-1-right zombie1-run-right'>"
           )
-        }, 1500)
+        }, time)
       } else if (enemy == 'zombieLeft') {
         setTimeout(() => {
           $('#backGame').append(
             "<div id='zombie1Left' class='zombie-1-left zombie1-run-left'>"
           )
-        }, 1500)
+        }, time)
+      } else if (enemy == 'zombieArmorLeft') {
+        setTimeout(() => {
+          $('#backGame').append(
+            "<div id='zombieArmorLeft' class='zombieArmor-left zombieArmor-run-left'></div>"
+          )
+        }, time)
+      } else if (enemy == 'zombieArmorRight') {
+        setTimeout(() => {
+          $('#backGame').append(
+            "<div id='zombieArmorRight' class='zombieArmor-right zombieArmor-run-right'></div>"
+          )
+        }, time)
       }
+    }
+  }
+
+  function dificultyUp() {
+    if (zombieArmorAppearence) {
+      if (enemyDeaths >= 50) {
+        repositionEnemy('zombieArmorLeft')
+        repositionEnemy('zombieArmorRight')
+        zombieArmorAppearence = false
+      }
+    } else if (giantZombieAppearence) {
+      // Invoca o zombie gigante
     }
   }
 
@@ -350,6 +449,20 @@ function start() {
       if (positionX > 745) {
         $('#zombie1Right').css('left', 0)
       }
+
+      var positionX = parseInt($('#zombieArmorLeft').css('left'))
+      $('#zombieArmorLeft').css('left', positionX - speed)
+
+      if (positionX <= 0) {
+        $('#zombieArmorLeft').css('left', 745)
+      }
+
+      var positionX = parseInt($('#zombieArmorRight').css('left'))
+      $('#zombieArmorRight').css('left', positionX + speed)
+
+      if (positionX > 745) {
+        $('#zombieArmorRight').css('left', 0)
+      }
     }
   } // Fim do enemyMove
 
@@ -367,6 +480,8 @@ function start() {
     $('#player').remove()
     $('#zombie1Right').remove()
     $('#zombie1Left').remove()
+    $('#zombieArmorRight').remove()
+    $('#zombieArmorLeft').remove()
     $('#lifeBar').remove()
 
     $('#backGame').append("<div id='over'></div>")
@@ -388,6 +503,7 @@ function restartGame() {
   start()
 } // Fim da função restart Game
 
+// Função que cria a tela de instruções
 function instructions() {
   $('#menu-start').hide()
   $('#backGame').append(
@@ -401,9 +517,10 @@ function instructions() {
       "<button id='btnBack' onClick=backMenu()>Back Menu</button>" +
       '</div>'
   )
-}
+} // Fim da função instructions
 
+// Função de voltar para o menu
 function backMenu() {
   $('#gameInstructions').remove()
   $('#menu-start').show()
-}
+} // Fim da função backMenu
