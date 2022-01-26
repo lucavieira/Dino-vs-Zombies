@@ -12,6 +12,8 @@ function start() {
   var canMoveZombie1Left = true
   var canMoveZombieArmorRight = true
   var canMoveZombieArmorLeft = true
+  var canMoveGiantZombieLeft = true
+  var canMoveGiantZombieRight = true
   var gameOver = false
   var direction = 'right'
   var score = 0
@@ -58,7 +60,9 @@ function start() {
       canMoveZombie1Right,
       canMoveZombie1Left,
       canMoveZombieArmorRight,
-      canMoveZombieArmorLeft
+      canMoveZombieArmorLeft,
+      canMoveGiantZombieLeft,
+      canMoveGiantZombieRight
     )
     collisions()
     scores()
@@ -431,6 +435,18 @@ function start() {
             "<div id='zombieArmorRight' class='zombieArmor-right zombieArmor-run-right'></div>"
           )
         }, time)
+      } else if (enemy == 'zombieGiantLeft') {
+        setTimeout(() => {
+          $('#backGame').append(
+            "<div id='zombieGiantLeft' class='zombieGiant-left zombieGiant-run-left'></div>"
+          )
+        }, time)
+      } else if (enemy == 'zombieGiantRight') {
+        setTimeout(() => {
+          $('#backGame').append(
+            "<div id='zombieGiantRight' class='zombieGiant-right zombieGiant-run-right'></div>"
+          )
+        }, time)
       }
     }
   }
@@ -444,6 +460,11 @@ function start() {
       }
     } else if (giantZombieAppearence) {
       // Invoca o zombie gigante
+      if (enemyDeaths >= 5) {
+        repositionEnemy('zombieGiantLeft')
+        repositionEnemy('zombieGiantRight')
+        giantZombieAppearence = false
+      }
     }
   }
 
@@ -472,7 +493,9 @@ function start() {
     canMoveZombie1Right,
     canMoveZombie1Left,
     canMoveZombieArmorRight,
-    canMoveZombieArmorLeft
+    canMoveZombieArmorLeft,
+    canMoveGiantZombieLeft,
+    canMoveGiantZombieRight
   ) {
     // Verifica se pode se movimentar e qual inimigo
     if (canMoveZombie1Right) {
@@ -511,6 +534,22 @@ function start() {
         $('#zombieArmorRight').css('left', 0)
       }
     }
+    if (canMoveGiantZombieLeft) {
+      var positionX = parseInt($('#zombieGiantLeft').css('left'))
+      $('#zombieGiantLeft').css('left', positionX - speed)
+
+      if (positionX <= 0) {
+        $('#zombieGiantLeft').css('left', 745)
+      }
+    }
+    if (canMoveGiantZombieRight) {
+      var positionX = parseInt($('#zombieGiantRight').css('left'))
+      $('#zombieGiantRight').css('left', positionX + speed)
+
+      if (positionX > 745) {
+        $('#zombieGiantLeft').css('left', 0)
+      }
+    }
   } // Fim do enemyMove
 
   // Função responsavel por mostrar o placar do jogo, a quantidade de pontos até o momento
@@ -529,6 +568,8 @@ function start() {
     $('#zombie1Left').remove()
     $('#zombieArmorRight').remove()
     $('#zombieArmorLeft').remove()
+    $('#zombieGiantLeft').remove()
+    $('#zombieGiantRight').remove()
     $('#lifeBar').remove()
 
     $('#backGame').append("<div id='over'></div>")
