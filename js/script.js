@@ -456,8 +456,8 @@ function start() {
     }
 
     if (collision17.length > 0) {
-      // hit = 4
-      // damage()
+      hit = 4
+      damage()
       canMoveGiantZombieLeft = false
       $('#zombieGiantLeft').removeClass('zombieGiant-run-left')
       $('#zombieGiantLeft').addClass('zombieGiant-attack-left')
@@ -468,8 +468,8 @@ function start() {
     }
 
     if (collision18.length > 0) {
-      // hit = 4
-      // damage()
+      hit = 4
+      damage()
       canMoveGiantZombieRight = false
       $('#zombieGiantRight').removeClass('zombieGiant-run-right')
       $('#zombieGiantRight').addClass('zombieGiant-attack-right')
