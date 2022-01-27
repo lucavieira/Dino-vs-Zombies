@@ -20,6 +20,7 @@ function start() {
   var speed = 1
   var enemyDeaths = 0
   var hit
+  var hitFireball = 0
 
   // Variaveis que controlam o surgimento dos inimigos
   var zombieArmorAppearence = true
@@ -209,6 +210,12 @@ function start() {
     var collision10 = $('#fireballLeft').collision('#zombieArmorRight')
     var collision11 = $('#player').collision($('#zombieArmorLeft'))
     var collision12 = $('#player').collision($('#zombieArmorRight'))
+    var collision13 = $('#fireballRight').collision('#zombieGiantLeft')
+    var collision14 = $('#fireballRight').collision('#zombieGiantRight')
+    var collision15 = $('#fireballLeft').collision('#zombieGiantLeft')
+    var collision16 = $('#fireballLeft').collision('#zombieGiantRight')
+    var collision17 = $('#player').collision($('#zombieGiantLeft'))
+    var collision18 = $('#player').collision($('#zombieGiantRight'))
 
     // Verifica se está tendo colisão entre dois elementos
     if (collision1.length > 0) {
@@ -379,6 +386,98 @@ function start() {
       $('#zombieArmorRight').addClass('zombieArmor-run-right')
       $('#zombieArmorRight').removeClass('zombieArmor-attack-right')
     }
+
+    if (collision13.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 200
+      hitFireball = hitFireball + 1
+
+      positionTop = parseInt($('#zombieGiantLeft').css('top'))
+      positionLeft = parseInt($('#zombieGiantLeft').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballRight').css('left', 780)
+
+      $('#zombieGiantLeft').remove()
+      repositionEnemy('zombieGiantLeft', 1000)
+    }
+
+    if (collision14.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 200
+      hitFireball = hitFireball + 1
+
+      positionTop = parseInt($('#zombieGiantRight').css('top'))
+      positionLeft = parseInt($('#zombieGiantRight').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballRight').css('left', 780)
+
+      $('#zombieGiantRight').remove()
+      repositionEnemy('zombieGiantRight', 1000)
+    }
+
+    if (collision15.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 200
+      hitFireball = hitFireball + 1
+
+      positionTop = parseInt($('#zombieGiantLeft').css('top'))
+      positionLeft = parseInt($('#zombieGiantLeft').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballLeft').css('left', 780)
+
+      $('#zombieGiantLeft').remove()
+      repositionEnemy('zombieGiantLeft', 1000)
+    }
+
+    if (collision16.length > 0) {
+      speedUp()
+      dificultyUp()
+      enemyDeaths = enemyDeaths + 1
+      score = score + 200
+      hitFireball = hitFireball + 1
+
+      positionTop = parseInt($('#zombieGiantRight').css('top'))
+      positionLeft = parseInt($('#zombieGiantRight').css('left'))
+
+      explosion(positionTop, positionLeft)
+      $('#fireballLeft').css('left', 780)
+
+      $('#zombieGiantRight').remove()
+      repositionEnemy('zombieGiantRight', 1000)
+    }
+
+    if (collision17.length > 0) {
+      // hit = 4
+      // damage()
+      canMoveGiantZombieLeft = false
+      $('#zombieGiantLeft').removeClass('zombieGiant-run-left')
+      $('#zombieGiantLeft').addClass('zombieGiant-attack-left')
+    } else {
+      canMoveGiantZombieLeft = true
+      $('#zombieGiantLeft').addClass('zombieGiant-run-left')
+      $('#zombieGiantLeft').removeClass('zombieGiant-attack-left')
+    }
+
+    if (collision18.length > 0) {
+      // hit = 4
+      // damage()
+      canMoveGiantZombieRight = false
+      $('#zombieGiantRight').removeClass('zombieGiant-run-right')
+      $('#zombieGiantRight').addClass('zombieGiant-attack-right')
+    } else {
+      canMoveGiantZombieRight = true
+      $('#zombieGiantRight').addClass('zombieGiant-run-right')
+      $('#zombieGiantRight').removeClass('zombieGiant-attack-right')
+    }
   } // Fim da Collisions
 
   // Aumenta a velocidade do inimigo cada vez que um inimigo é eliminado
@@ -398,7 +497,7 @@ function start() {
     ).trim()
 
     // Verifica se a vida chegou a 0
-    if (life != 0) {
+    if (life >= 0) {
       // Se for diferente de 0 e estiver em contato com o zumbi, irá diminuir
       document.querySelector('#lifeBar').style.setProperty(`--life`, life - hit)
     }
@@ -547,7 +646,7 @@ function start() {
       $('#zombieGiantRight').css('left', positionX + speed)
 
       if (positionX > 745) {
-        $('#zombieGiantLeft').css('left', 0)
+        $('#zombieGiantRight').css('left', 0)
       }
     }
   } // Fim do enemyMove

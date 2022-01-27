@@ -303,6 +303,16 @@ h1 {
   animation: run-zombie1 1.8s steps(9) infinite;
 }
 
+.zombieGiant-attack-left {
+  background-image: url(/images/sprites/giantZombie-attack-left.png);
+  animation: attackZombieArmor 1.5s steps(8) infinite;
+}
+
+.zombieGiant-attack-right {
+  background-image: url(/images/sprites/giantZombie-attack-right.png);
+  animation: attackZombieArmor 1.5s steps(8) infinite;
+}
+
 .run-animation-right {
   background-image: url(images/sprites/dino-run-right.png);
   animation: run 0.9s steps(8) infinite;
