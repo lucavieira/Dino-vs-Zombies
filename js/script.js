@@ -132,7 +132,6 @@ function start() {
   } // Fim do playerMove
 
   $('#moveRight-button').on('tap', function () {
-    $.event.special.tap.tapholdThreshold = 10
     var right = parseInt($('#player').css('right'))
     $('#player').css('right', right - 10)
     $('#player').css('background', 'url(images/sprites/dino-run-right.png)')
