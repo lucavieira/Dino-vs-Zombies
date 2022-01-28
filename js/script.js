@@ -20,7 +20,6 @@ function start() {
   var speed = 1
   var enemyDeaths = 0
   var hit
-  var hitFireball = 0
 
   // Variaveis que controlam o surgimento dos inimigos
   var zombieArmorAppearence = true
@@ -68,6 +67,12 @@ function start() {
     collisions()
     scores()
   }
+
+  // Controls
+
+  $('#controls').append("<div id='moveLeft-button'></div>")
+  $('#controls').append("<div id='moveRight-button'></div>")
+  $('#controls').append("<div id='fireball-button'></div>")
 
   // BACKGROUND
 
@@ -125,6 +130,19 @@ function start() {
       $('#player').removeClass('run-animation-left')
     }
   } // Fim do playerMove
+
+  $('#moveRight-button').on('taphold', function () {
+    var right = parseInt($('#player').css('right'))
+    $('#player').css('right', right - 10)
+    $('#player').css('background', 'url(images/sprites/dino-run-right.png)')
+    direction = 'right'
+
+    $('#player').addClass('run-animation-right')
+
+    if (right <= 0) {
+      $('#player').css('right', right)
+    }
+  })
 
   // Habilidades do Player
 

@@ -253,6 +253,32 @@ h1 {
   background: url(images/sprites/explosion.png);
 }
 
+#controls {
+  display: flex;
+  margin-top: 30px;
+  gap: 150px;
+}
+
+/* Buttons */
+#moveLeft-button,
+#moveRight-button,
+#fireball-button {
+  width: 96px;
+  height: 96px;
+}
+
+#moveLeft-button {
+  background: url(images/controls/btn_left.png) no-repeat;
+}
+
+#moveRight-button {
+  background: url(images/controls/btn_right.png) no-repeat;
+}
+
+#fireball-button {
+  background: url(images/controls/fireball_btn.png) no-repeat;
+}
+
 .zombie1-run-left {
   background-image: url(images/sprites/zombie1-left.png);
   animation: run-zombie1 1.8s steps(9) infinite reverse;
