@@ -131,7 +131,7 @@ function start() {
     }
   } // Fim do playerMove
 
-  $('#moveRight-button').on('taphold', function () {
+  $('#moveRight-button').on('tap', function () {
     $.event.special.tap.tapholdThreshold = 10
     var right = parseInt($('#player').css('right'))
     $('#player').css('right', right - 10)
@@ -145,7 +145,7 @@ function start() {
     }
   })
 
-  $('#moveLeft-button').on('taphold', function () {
+  $('#moveLeft-button').on('tap', function () {
     var right = parseInt($('#player').css('right'))
     $('#player').css('right', right + 10)
     $('#player').css(
@@ -704,6 +704,9 @@ function start() {
     $('#zombieArmorLeft').remove()
     $('#zombieGiantLeft').remove()
     $('#zombieGiantRight').remove()
+    $('#moveLeft-button').remove()
+    $('#moveRight-button').remove()
+    $('#fireball-button').remove()
     $('#lifeBar').remove()
 
     $('#backGame').append("<div id='over'></div>")
