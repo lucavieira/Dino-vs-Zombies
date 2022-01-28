@@ -129,20 +129,20 @@ function start() {
     if (!game.press[TECLA.A]) {
       $('#player').removeClass('run-animation-left')
     }
+
+    $('#moveRight-button').on('taphold', function () {
+      var right = parseInt($('#player').css('right'))
+      $('#player').css('right', right - 10)
+      $('#player').css('background', 'url(images/sprites/dino-run-right.png)')
+      direction = 'right'
+
+      $('#player').addClass('run-animation-right')
+
+      if (right <= 0) {
+        $('#player').css('right', right)
+      }
+    })
   } // Fim do playerMove
-
-  $('#moveRight-button').on('taphold', function () {
-    var right = parseInt($('#player').css('right'))
-    $('#player').css('right', right - 10)
-    $('#player').css('background', 'url(images/sprites/dino-run-right.png)')
-    direction = 'right'
-
-    $('#player').addClass('run-animation-right')
-
-    if (right <= 0) {
-      $('#player').css('right', right)
-    }
-  })
 
   // Habilidades do Player
 
