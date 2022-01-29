@@ -741,7 +741,7 @@ function start() {
     $('#powerBar').remove()
 
     $('#backGame').append("<div id='over'></div>")
-    $('#over').append(
+    $('#over').html(
       "<h2 id='gameOverTitle'>Game Over</h2><p id='scores'>Score: " +
         score +
         '<br /><p id="deathsEnemys">Enemy Deaths: ' +
