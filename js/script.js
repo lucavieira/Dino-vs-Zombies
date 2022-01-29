@@ -546,6 +546,7 @@ function start() {
 
     if(power == 100) {
       console.log('MAX')
+      $('#powerBar').addClass('bright')
     }
   }
 

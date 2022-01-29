@@ -386,6 +386,20 @@ h1 {
   animation: explosion 0.5s steps(7);
 }
 
+.bright {
+  animation: brilho 0.6s infinite;
+}
+
+@keyframes brilho {
+  from {
+    filter: brightness(100%);
+  }
+
+  to {
+    filter: brightness(140%);
+  }
+}
+
 @keyframes explosion {
   from {
     background-position: 0px;
