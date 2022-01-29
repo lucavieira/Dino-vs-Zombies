@@ -132,51 +132,68 @@ function start() {
     }
   } // Fim do playerMove
 
-  $('#moveRight-button').on('mousedown', function () {
-    intervalId = setInterval(moveRight, 500)
-  })
+  function touchStart(event) {
+    // event.preventDefault()
 
-  $('#moveLeft-button').on('mousedown', function () {
-    intervalId = setInterval(moveLeft, 500)
-  })
+    var whichArt = event.target
+    if (whichArt.id == 'moveRight-button') {
+      var right = parseInt($('#player').css('right'))
+      $('#player').css('right', right - 10)
+      $('#player').css('background', 'url(images/sprites/dino-run-right.png)')
+      direction = 'right'
 
-  $(document).on('mouseup', release)
+      $('#player').addClass('run-animation-right')
 
-  function moveRight() {
-    var right = parseInt($('#player').css('right'))
-    $('#player').css('right', right - 10)
-    $('#player').css('background', 'url(images/sprites/dino-run-right.png)')
-    direction = 'right'
+      if (right <= 0) {
+        $('#player').css('right', right)
+      }
+    }
 
-    $('#player').addClass('run-animation-right')
-
-    if (right <= 0) {
-      $('#player').css('right', right)
+    if (whichArt.id == 'moveLeft-button') {
+      var right = parseInt($('#player').css('right'))
+      $('#player').css('right', right + 10)
+      $('#player').css(
+        'background',
+        'url(images/sprites/dino-run-left.png) right'
+      )
+      direction = 'left'
+      $('#player').addClass('run-animation-left')
+      if (right >= 740) {
+        $('#player').css('right', right)
+      }
     }
   }
 
-  function moveLeft() {
-    var right = parseInt($('#player').css('right'))
-    $('#player').css('right', right + 10)
-    $('#player').css(
-      'background',
-      'url(images/sprites/dino-run-left.png) right'
-    )
-    direction = 'left'
+  document.querySelector('body').addEventListener('touchstart', touchStart)
 
-    $('#player').addClass('run-animation-left')
+  // $('#moveRight-button').on('tap', function () {
+  //   var right = parseInt($('#player').css('right'))
+  //   $('#player').css('right', right - 10)
+  //   $('#player').css('background', 'url(images/sprites/dino-run-right.png)')
+  //   direction = 'right'
 
-    if (right >= 740) {
-      $('#player').css('right', right)
-    }
-  }
+  //   $('#player').addClass('run-animation-right')
 
-  function release() {
-    if (intervalId != 0) {
-      clearInterval(intervalId)
-      intervalId = 0
-    }
-  }
+  //   if (right <= 0) {
+  //     $('#player').css('right', right)
+  //   }
+  // })
+
+  // $('#moveLeft-button').on('tap', function () {
+  //   var right = parseInt($('#player').css('right'))
+  //   $('#player').css('right', right + 10)
+  //   $('#player').css(
+  //     'background',
+  //     'url(images/sprites/dino-run-left.png) right'
+  //   )
+  //   direction = 'left'
+
+  //   $('#player').addClass('run-animation-left')
+
+  //   if (right >= 740) {
+  //     $('#player').css('right', right)
+  //   }
+  // })
 
   $('#fireball-button').on('tap', function () {
     fireball()
