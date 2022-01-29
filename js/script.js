@@ -40,6 +40,7 @@ function start() {
 
   // Barra de vida do jogador
   $('#backGame').append("<div id='lifeBar'></div>")
+  $('#backGame').append("<div id='powerBar'></div>")
 
   game.press = []
   game.timer = setInterval(loop, 35)
@@ -283,6 +284,7 @@ function start() {
     if (collision3.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
@@ -298,6 +300,7 @@ function start() {
     if (collision4.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
@@ -313,6 +316,7 @@ function start() {
     if (collision5.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Left').css('top'))
@@ -328,6 +332,7 @@ function start() {
     if (collision6.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 50
       positionTop = parseInt($('#zombie1Right').css('top'))
@@ -343,6 +348,7 @@ function start() {
     if (collision7.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 100
       positionTop = parseInt($('#zombieArmorLeft').css('top'))
@@ -358,6 +364,7 @@ function start() {
     if (collision8.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 100
       positionTop = parseInt($('#zombieArmorRight').css('top'))
@@ -373,6 +380,7 @@ function start() {
     if (collision9.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 100
       positionTop = parseInt($('#zombieArmorLeft').css('top'))
@@ -388,6 +396,7 @@ function start() {
     if (collision10.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 100
       positionTop = parseInt($('#zombieArmorRight').css('top'))
@@ -428,6 +437,7 @@ function start() {
     if (collision13.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 200
 
@@ -444,6 +454,7 @@ function start() {
     if (collision14.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 200
 
@@ -460,6 +471,7 @@ function start() {
     if (collision15.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 200
 
@@ -476,6 +488,7 @@ function start() {
     if (collision16.length > 0) {
       speedUp()
       dificultyUp()
+      powerUp()
       enemyDeaths = enemyDeaths + 1
       score = score + 200
 
@@ -518,6 +531,21 @@ function start() {
   function speedUp() {
     if (speed < 3) {
       speed = speed + 0.3
+    }
+  }
+
+  // Função que aumenta a barra de poder
+  function powerUp() {
+    power = parseInt(
+      getComputedStyle(document.querySelector('#powerBar')).getPropertyValue(
+        `--power`
+      )
+    )
+
+    document.querySelector('#powerBar').style.setProperty(`--power`, power + 10)
+
+    if(power == 100) {
+      console.log('MAX')
     }
   }
 
