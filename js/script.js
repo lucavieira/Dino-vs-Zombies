@@ -544,7 +544,7 @@ function start() {
 
     document.querySelector('#powerBar').style.setProperty(`--power`, power + 10)
 
-    if(power == 100) {
+    if (power == 100) {
       console.log('MAX')
       $('#powerBar').addClass('bright')
     }
@@ -553,18 +553,19 @@ function start() {
   // Função que diminui a vida do personagem quando for atacado
   function damage() {
     // Acessando a variavel css que contém o valor total da barra de vida
-    life = String(
-      getComputedStyle(document.querySelector('#lifeBar')).getPropertyValue(
-        `--life`
-      )
-    ).trim()
+    if (!gameOver) {
+      life = String(
+        getComputedStyle(document.querySelector('#lifeBar')).getPropertyValue(
+          `--life`
+        )
+      ).trim()
+    }
 
     // Verifica se a vida chegou a 0
     if (life >= 0) {
       // Se for diferente de 0 e estiver em contato com o zumbi, irá diminuir
       document.querySelector('#lifeBar').style.setProperty(`--life`, life - hit)
-    }
-    if (life <= 0) {
+    } else {
       // Game Over
       game_over()
     }
@@ -735,10 +736,12 @@ function start() {
     $('#moveLeft-button').remove()
     $('#moveRight-button').remove()
     $('#fireball-button').remove()
+    $('#scoreboard').remove()
     $('#lifeBar').remove()
+    $('#powerBar').remove()
 
     $('#backGame').append("<div id='over'></div>")
-    $('#over').html(
+    $('#over').append(
       "<h2 id='gameOverTitle'>Game Over</h2><p id='scores'>Score: " +
         score +
         '<br /><p id="deathsEnemys">Enemy Deaths: ' +
@@ -752,6 +755,12 @@ function start() {
 
 // Função que reinicia o jogo
 function restartGame() {
+  $('#zombie1Right').remove()
+  $('#zombie1Left').remove()
+  $('#zombieArmorRight').remove()
+  $('#zombieArmorLeft').remove()
+  $('#zombieGiantLeft').remove()
+  $('#zombieGiantRight').remove()
   $('#over').remove()
   start()
 } // Fim da função restart Game
